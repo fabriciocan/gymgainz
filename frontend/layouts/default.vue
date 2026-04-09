@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-[#0A0A0A] flex flex-col font-sans">
+  <div class="h-full bg-white dark:bg-[#0A0A0A] flex flex-col font-sans overflow-hidden">
     <!-- Impersonate Banner -->
     <UAlert
       v-if="authStore.impersonating"
@@ -13,13 +13,21 @@
       </template>
     </UAlert>
 
-    <!-- Conteúdo principal -->
-    <main class="flex-1 pb-20" :class="{ 'pt-12': authStore.impersonating }">
+    <!-- Conteúdo principal — único container de scroll -->
+    <main
+      class="flex-1 overflow-y-auto overflow-x-hidden pb-20 overscroll-none"
+      style="overscroll-behavior: none; -webkit-overflow-scrolling: touch;"
+      :class="{ 'pt-12': authStore.impersonating }"
+    >
       <slot />
     </main>
 
     <!-- Bottom navigation -->
-    <nav v-if="authStore.isAuthenticated" class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0A0A0A]/95 border-t border-[#E5E5E5] dark:border-[#2A2A2A] z-40 backdrop-blur-sm" style="padding-bottom: env(safe-area-inset-bottom)">
+    <nav
+      v-if="authStore.isAuthenticated"
+      class="shrink-0 bg-white/95 dark:bg-[#0A0A0A]/95 border-t border-[#E5E5E5] dark:border-[#2A2A2A] z-40 backdrop-blur-sm"
+      style="padding-bottom: env(safe-area-inset-bottom)"
+    >
       <div class="flex items-center justify-around py-2 max-w-lg mx-auto">
         <NuxtLink
           v-for="item in navItems"

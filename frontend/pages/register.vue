@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-[#0A0A0A] flex items-center justify-center p-5">
+  <div class="min-h-full bg-white dark:bg-[#0A0A0A] flex items-center justify-center p-5">
     <div class="w-full max-w-sm">
       <!-- Logo -->
       <div class="text-center mb-10">
@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: ['guest'], layout: false })
+definePageMeta({ middleware: ['guest'], layout: 'fullscreen' })
 
 const authStore = useAuthStore()
 const loading = ref(false)

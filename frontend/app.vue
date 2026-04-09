@@ -5,32 +5,30 @@
 </template>
 
 <style>
-/* Comportamento nativo — sem seleção de texto em elementos de UI */
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
 }
 
-html, body {
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
+html {
   height: 100%;
+  overscroll-behavior: none;
 }
 
 body {
-  -webkit-user-select: none;
-  user-select: none;
+  height: 100%;
   overflow: hidden;
   position: fixed;
   width: 100%;
-  height: 100%;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #__nuxt {
   height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: none;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Permite selecionar texto em inputs e textareas */
@@ -39,12 +37,8 @@ input, textarea, [contenteditable] {
   user-select: text;
 }
 
-/* Safe area para notch/home indicator */
+/* Safe area */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
-}
-
-.pt-safe {
-  padding-top: env(safe-area-inset-top);
 }
 </style>

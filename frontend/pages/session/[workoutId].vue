@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-[#0A0A0A]">
+  <div class="min-h-full bg-white dark:bg-[#0A0A0A]">
     <UNotifications />
 
     <!-- ── EXERCISE LIST VIEW ── -->
-    <div v-if="view === 'list'" class="max-w-lg mx-auto px-5 pt-4 pb-8 flex flex-col min-h-screen">
+    <div v-if="view === 'list'" class="max-w-lg mx-auto px-5 pt-4 pb-8 flex flex-col min-h-full">
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
         <button class="text-[#8A8A8A] hover:text-[#0A0A0A] dark:hover:text-white transition-colors" @click="cancel">
@@ -67,7 +67,7 @@
     </div>
 
     <!-- ── ACTIVE EXERCISE VIEW ── -->
-    <div v-else-if="view === 'exercise' && activeExercise" class="max-w-lg mx-auto px-5 pt-4 pb-8 flex flex-col min-h-screen">
+    <div v-else-if="view === 'exercise' && activeExercise" class="max-w-lg mx-auto px-5 pt-4 pb-8 flex flex-col min-h-full">
       <!-- Header -->
       <div class="flex items-center justify-between mb-5">
         <button
@@ -180,7 +180,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: ['auth', 'subscription'], layout: false })
+definePageMeta({ middleware: ['auth', 'subscription'], layout: 'fullscreen' })
 
 const route = useRoute()
 const workoutStore = useWorkoutStore()

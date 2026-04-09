@@ -62,6 +62,19 @@
         </div>
       </div>
 
+      <!-- Instalar app -->
+      <NuxtLink
+        v-if="!isInstalled"
+        to="/install"
+        class="flex items-center justify-between w-full bg-[#F9F9F9] dark:bg-[#1A1A1A] rounded-2xl p-4 text-[14px] font-medium text-[#0A0A0A] dark:text-white"
+      >
+        <span class="flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-[#8A8A8A]"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+          Adicionar à tela inicial
+        </span>
+        <span class="text-[18px] text-[#CCCCCC] dark:text-[#444]">›</span>
+      </NuxtLink>
+
       <!-- Exercícios personalizados -->
       <NuxtLink
         to="/exercises"
@@ -92,6 +105,7 @@ definePageMeta({ middleware: ['auth'] })
 const authStore = useAuthStore()
 const subscriptionStore = useSubscriptionStore()
 const colorMode = useColorMode()
+const { isInstalled } = usePwaInstall()
 
 const themeOptions = [
   { value: 'light', label: 'Claro' },

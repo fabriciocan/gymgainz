@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-[#0A0A0A] flex items-center justify-center p-5">
+  <div class="min-h-full bg-white dark:bg-[#0A0A0A] flex items-center justify-center p-5">
     <div class="w-full max-w-sm">
       <div v-if="billingUrl" class="text-center">
         <div class="text-[40px] mb-4">✅</div>
