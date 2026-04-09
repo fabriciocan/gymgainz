@@ -27,22 +27,42 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    registerType: 'autoUpdate',
+    injectRegister: 'auto',
+
     manifest: {
       name: 'GymTrack',
       short_name: 'GymTrack',
       description: 'Acompanhe sua evolução na academia',
-      theme_color: '#FFFFFF',
+      theme_color: '#0A0A0A',
       background_color: '#FFFFFF',
       display: 'standalone',
+      orientation: 'portrait',
+      start_url: '/dashboard',
+      scope: '/',
+      lang: 'pt-BR',
       icons: [
-        { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-        { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+        { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+        { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
       ],
     },
+
     workbox: {
-      navigateFallback: '/',
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      navigateFallback: '/dashboard',
+      globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
+      runtimeCaching: [
+        {
+          urlPattern: /^\/api\/.*/i,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            expiration: { maxEntries: 100, maxAgeSeconds: 3600 },
+            networkTimeoutSeconds: 5,
+          },
+        },
+      ],
     },
+
     devOptions: {
       enabled: true,
       type: 'module',
@@ -72,7 +92,7 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#0A0A0A', media: '(prefers-color-scheme: dark)' },
         { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
         { name: 'apple-mobile-web-app-title', content: 'GymTrack' },
         { name: 'format-detection', content: 'telephone=no' },
       ],
@@ -80,7 +100,8 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap' },
-        { rel: 'apple-touch-icon', href: '/icon-192.png' },
+        { rel: 'apple-touch-icon', href: '/icons/icon-192.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/icons/icon-192.png' },
       ],
       style: [
         { children: '*, *::before, *::after { font-family: "DM Sans", sans-serif; }' },

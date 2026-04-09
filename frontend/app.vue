@@ -23,6 +23,7 @@ body {
   overscroll-behavior: none;
   -webkit-user-select: none;
   user-select: none;
+  touch-action: manipulation;
 }
 
 #__nuxt {

@@ -48,6 +48,7 @@
       </div>
     </nav>
 
+    <InstallPrompt />
     <UNotifications />
   </div>
 </template>
