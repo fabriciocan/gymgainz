@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const impersonating = ref(false)
 
   const { api } = useApi()
+  const token = useCookie('auth_token', { maxAge: 60 * 60 * 24 * 30, sameSite: 'lax' })
 
   const isAuthenticated = computed(() => !!user.value)
   const isAdmin = computed(() => user.value?.roles?.some(r => r.name === 'admin') ?? false)
@@ -21,11 +22,13 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
 
     try {
-      const response = await api<{ user: User; message: string }>('/login', {
+      const response = await api<{ user: User; token: string; message: string }>('/login', {
         method: 'POST',
         body: credentials,
+        silent: true,
       })
 
+      token.value = response.token
       user.value = response.user
       return response
     } catch (e: any) {
@@ -41,13 +44,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       await api('/logout', { method: 'POST' })
-      user.value = null
-      impersonating.value = false
-      navigateTo('/login')
     } catch (e: any) {
       console.error('Erro ao fazer logout:', e)
     } finally {
+      token.value = null
+      user.value = null
+      impersonating.value = false
       loading.value = false
+      navigateTo('/login')
     }
   }
 

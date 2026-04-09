@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens;
     use HasFactory;
     use Notifiable;
 
@@ -39,6 +41,7 @@ class User extends Authenticatable
         'active',
         'guid',
         'domain',
+        'trial_ends_at',
     ];
 
     /**
@@ -63,7 +66,48 @@ class User extends Authenticatable
             'password'          => 'hashed',
             'active'            => 'boolean',
             'isExterno'         => 'boolean',
+            'trial_ends_at'     => 'datetime',
         ];
+    }
+
+    public function subscriptions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function activeSubscription(): ?\Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Subscription::class)->where('status', 'active')->latestOfMany();
+    }
+
+    public function workouts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Workout::class);
+    }
+
+    public function trainingSessions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TrainingSession::class);
+    }
+
+    public function bodyMeasurements(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(BodyMeasurement::class);
+    }
+
+    public function hasActiveAccess(): bool
+    {
+        if ($this->trial_ends_at && $this->trial_ends_at->isFuture()) {
+            return true;
+        }
+
+        $subscription = $this->subscriptions()
+            ->where('status', 'active')
+            ->where('current_period_end', '>', now())
+            ->latest()
+            ->first();
+
+        return $subscription !== null;
     }
 
     public function roles(): BelongsToMany

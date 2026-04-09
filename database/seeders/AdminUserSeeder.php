@@ -24,11 +24,12 @@ class AdminUserSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'admin@admin.com'],
             [
-                'name' => 'Administrador',
-                'username' => 'admin',
-                'password' => Hash::make('admin123'),
-                'active' => true,
-                'isExterno' => true,
+                'name'          => 'Administrador',
+                'username'      => 'admin',
+                'password'      => Hash::make('admin123'),
+                'active'        => true,
+                'isExterno'     => true,
+                'trial_ends_at' => now()->addDays(30),
             ]
         );
 

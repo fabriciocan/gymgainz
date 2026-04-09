@@ -58,16 +58,19 @@ class AuthController extends Controller
             ];
 
             if (Auth::attempt($credentials, $request->boolean('remember'))) {
-                $request->session()->regenerate();
                 RateLimiter::clear($this->throttleKey($request));
 
+                $user = Auth::user();
+                $token = $user->createToken('auth')->plainTextToken;
+
                 Log::info('Login bem-sucedido', [
-                    'user_id' => Auth::id(),
+                    'user_id' => $user->id,
                     'email' => $email,
                 ]);
 
                 return response()->json([
-                    'user' => new UserResource(Auth::user()->load('roles')),
+                    'user' => new UserResource($user->load('roles')),
+                    'token' => $token,
                     'message' => 'Login realizado com sucesso'
                 ]);
             }
@@ -91,14 +94,40 @@ class AuthController extends Controller
     }
 
     /**
+     * Registro de novo usuário (com trial de 7 dias)
+     */
+    public function register(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = User::create([
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'password'      => $request->password,
+            'active'        => true,
+            'trial_ends_at' => now()->addDays(7),
+        ]);
+
+        Auth::login($user);
+        $token = $user->createToken('auth')->plainTextToken;
+
+        return response()->json([
+            'user'    => new UserResource($user->load('roles')),
+            'token'   => $token,
+            'message' => 'Conta criada com sucesso! Você tem 7 dias de trial gratuito.',
+        ], 201);
+    }
+
+    /**
      * Logout
      */
     public function logout(Request $request): JsonResponse
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }

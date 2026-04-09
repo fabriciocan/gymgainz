@@ -1,128 +1,82 @@
 <template>
-  <div class="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
-    <!-- Info Section -->
-    <div class="flex-1 max-w-lg animate-fade-in">
-      <div class="text-center lg:text-left mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
-          Sistema
-          <span class="block text-2xl md:text-3xl font-medium text-gray-800 dark:text-gray-200 mt-2">
-            Base Nuxt
-          </span>
-        </h1>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-4">Sistema de Gerenciamento</p>
+  <div class="min-h-screen bg-white dark:bg-[#0A0A0A] flex items-center justify-center p-5">
+    <div class="w-full max-w-sm">
+      <!-- Logo -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-[#0A0A0A] dark:bg-white rounded-2xl mb-4">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" class="dark:stroke-[#0A0A0A]" stroke-width="1.8">
+            <path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h11"/>
+            <circle cx="3.5" cy="6.5" r="1" fill="white" class="dark:fill-[#0A0A0A]" stroke="none"/>
+            <circle cx="3.5" cy="12" r="1" fill="white" class="dark:fill-[#0A0A0A]" stroke="none"/>
+            <circle cx="3.5" cy="17.5" r="1" fill="white" class="dark:fill-[#0A0A0A]" stroke="none"/>
+          </svg>
+        </div>
+        <h1 class="text-[28px] font-semibold tracking-[-0.02em] text-[#0A0A0A] dark:text-white">GymTrack</h1>
+        <p class="text-[14px] text-[#8A8A8A] mt-1">Acompanhe sua evolução na academia</p>
       </div>
-    </div>
 
-    <!-- Login Form -->
-    <div class="w-full max-w-md animate-slide-up">
-      <div class="card-clean rounded-3xl p-10 shadow-xl">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
-            Bem-vindo de volta
-          </h2>
-          <p class="text-gray-600 dark:text-gray-400">
-            Acesse sua conta para continuar
-          </p>
+      <!-- Form -->
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-medium tracking-[0.06em] uppercase text-[#8A8A8A] mb-1.5">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            placeholder="seu@email.com"
+            autofocus
+            class="w-full bg-[#F9F9F9] dark:bg-[#1A1A1A] text-[#0A0A0A] dark:text-white placeholder-[#CCCCCC] dark:placeholder-[#444] rounded-xl px-4 py-3 text-[15px] border border-[#E5E5E5] dark:border-[#2A2A2A] focus:border-[#0A0A0A] dark:focus:border-white focus:outline-none transition-colors"
+            @keyup.enter="login"
+          />
+        </div>
+        <div>
+          <label class="block text-[11px] font-medium tracking-[0.06em] uppercase text-[#8A8A8A] mb-1.5">Senha</label>
+          <input
+            v-model="form.password"
+            type="password"
+            placeholder="Sua senha"
+            class="w-full bg-[#F9F9F9] dark:bg-[#1A1A1A] text-[#0A0A0A] dark:text-white placeholder-[#CCCCCC] dark:placeholder-[#444] rounded-xl px-4 py-3 text-[15px] border border-[#E5E5E5] dark:border-[#2A2A2A] focus:border-[#0A0A0A] dark:focus:border-white focus:outline-none transition-colors"
+            @keyup.enter="login"
+          />
         </div>
 
-        <!-- Error message -->
-        <div v-if="error" class="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700">
-          <p class="text-sm font-medium text-red-700 dark:text-red-300">{{ error }}</p>
+        <div v-if="error" class="bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[13px] rounded-xl px-4 py-3">
+          {{ error }}
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-6">
-          <!-- Email field -->
-          <div class="space-y-2">
-            <label for="email" class="block text-sm font-medium text-gray-900 dark:text-white">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              v-model="email"
-              required
-              class="input-clean block w-full px-4 py-3 rounded-xl text-gray-900 dark:text-white"
-              placeholder="Digite seu email"
-            >
-          </div>
-
-          <!-- Password field -->
-          <div class="space-y-2">
-            <label for="password" class="block text-sm font-medium text-gray-900 dark:text-white">
-              Senha
-            </label>
-            <input
-              type="password"
-              id="password"
-              v-model="password"
-              required
-              class="input-clean block w-full px-4 py-3 rounded-xl text-gray-900 dark:text-white"
-              placeholder="Digite sua senha"
-            >
-          </div>
-
-          <!-- Remember me -->
-          <div class="flex items-center justify-between">
-            <label for="remember" class="flex items-center">
-              <input
-                id="remember"
-                type="checkbox"
-                v-model="remember"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              >
-              <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Lembrar-me</span>
-            </label>
-          </div>
-
-          <!-- Login button -->
-          <button
-            type="submit"
-            :disabled="loading"
-            class="btn-primary w-full py-3 px-4 border border-transparent rounded-xl text-sm font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span v-if="loading" class="flex items-center justify-center">
-              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Autenticando...
-            </span>
-            <span v-else>Entrar</span>
-          </button>
-        </form>
+        <button
+          class="w-full bg-[#0A0A0A] dark:bg-white text-white dark:text-[#0A0A0A] rounded-xl py-3.5 text-[15px] font-medium tracking-[-0.01em] mt-2 transition-all active:scale-[0.98] disabled:opacity-50"
+          :disabled="loading"
+          @click="login"
+        >
+          <span v-if="loading">...</span>
+          <span v-else>Entrar</span>
+        </button>
       </div>
+
+      <p class="text-center text-[13px] text-[#8A8A8A] mt-6">
+        Não tem conta?
+        <NuxtLink to="/register" class="text-[#0A0A0A] dark:text-white font-medium hover:underline">Criar grátis</NuxtLink>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'auth',
-  middleware: 'guest',
-})
+definePageMeta({ middleware: ['guest'], layout: false })
 
 const authStore = useAuthStore()
-
-const email = ref('')
-const password = ref('')
-const remember = ref(false)
 const loading = ref(false)
-const error = ref<string | null>(null)
+const error = ref('')
+const form = reactive({ email: '', password: '' })
 
-const handleLogin = async () => {
+const login = async () => {
+  error.value = ''
   loading.value = true
-  error.value = null
-
   try {
-    await authStore.login({
-      email: email.value,
-      password: password.value,
-      remember: remember.value,
-    })
-
-    navigateTo('/dashboard')
+    await authStore.login(form)
+    await navigateTo('/dashboard')
   } catch (e: any) {
-    error.value = e.data?.message || 'Credenciais inválidas. Verifique seu email e senha.'
+    error.value = e?.data?.message || e?.message || 'Erro ao fazer login.'
   } finally {
     loading.value = false
   }
