@@ -67,14 +67,20 @@ export default defineNuxtConfig({
       title: 'GymTrack',
       meta: [
         { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover' },
         { name: 'theme-color', content: '#FFFFFF', media: '(prefers-color-scheme: light)' },
         { name: 'theme-color', content: '#0A0A0A', media: '(prefers-color-scheme: dark)' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+        { name: 'apple-mobile-web-app-title', content: 'GymTrack' },
+        { name: 'format-detection', content: 'telephone=no' },
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap' },
+        { rel: 'apple-touch-icon', href: '/icon-192.png' },
       ],
       style: [
         { children: '*, *::before, *::after { font-family: "DM Sans", sans-serif; }' },

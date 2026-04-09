@@ -16,7 +16,7 @@
     </div>
 
     <div v-else-if="workoutStore.workouts.length === 0" class="text-center py-16">
-      <p class="text-[32px] mb-3">🏋️</p>
+      <svg class="mx-auto mb-3 text-[#CCCCCC] dark:text-[#444]" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h11"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
       <p class="text-[#8A8A8A] text-[14px]">Nenhum treino cadastrado.</p>
       <NuxtLink
         to="/workouts/new"

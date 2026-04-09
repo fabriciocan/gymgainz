@@ -29,7 +29,7 @@
     </div>
 
     <div v-else-if="!filteredExercises.length" class="text-center py-16">
-      <p class="text-[32px] mb-3">💪</p>
+      <svg class="mx-auto mb-3 text-[#CCCCCC] dark:text-[#444]" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h2m14 0h-2M7 7l1.5 1.5M17 7l-1.5 1.5M7 17l1.5-1.5M17 17l-1.5-1.5M12 4v2m0 14v-2"/><circle cx="12" cy="12" r="3"/></svg>
       <p class="text-[14px] text-[#8A8A8A]">
         {{ filterGroup ? 'Nenhum exercício neste grupo.' : 'Você ainda não criou exercícios personalizados.' }}
       </p>

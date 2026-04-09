@@ -17,6 +17,26 @@ export const useAuthStore = defineStore('auth', () => {
     return user.value?.roles?.some(r => r.name === roleName) ?? false
   }
 
+  const register = async (data: { name: string; email: string; password: string; password_confirmation: string }) => {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await api<{ user: User; token: string }>('/register', {
+        method: 'POST',
+        body: data,
+        silent: true,
+      })
+      token.value = response.token
+      user.value = response.user
+      return response
+    } catch (e: any) {
+      error.value = e.data?.message || 'Erro ao criar conta'
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
   const login = async (credentials: LoginCredentials) => {
     loading.value = true
     error.value = null
@@ -96,6 +116,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     isAdmin,
     hasRole,
+    register,
     login,
     logout,
     fetchUser,

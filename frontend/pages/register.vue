@@ -77,7 +77,6 @@
 <script setup lang="ts">
 definePageMeta({ middleware: ['guest'], layout: false })
 
-const { api } = useApi()
 const authStore = useAuthStore()
 const loading = ref(false)
 const error = ref('')
@@ -92,11 +91,10 @@ const register = async () => {
   error.value = ''
   loading.value = true
   try {
-    const res = await api<any>('/register', { method: 'POST', body: form })
-    authStore.user = res.user
+    await authStore.register(form)
     await navigateTo('/dashboard')
   } catch (e: any) {
-    error.value = e.data?.message || 'Erro ao criar conta.'
+    error.value = e?.data?.message || e?.message || 'Erro ao criar conta.'
   } finally {
     loading.value = false
   }

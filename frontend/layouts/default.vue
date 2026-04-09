@@ -19,8 +19,8 @@
     </main>
 
     <!-- Bottom navigation -->
-    <nav v-if="authStore.isAuthenticated" class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0A0A0A]/95 border-t border-[#E5E5E5] dark:border-[#2A2A2A] z-40 backdrop-blur-sm">
-      <div class="flex items-center justify-around py-2 pb-safe max-w-lg mx-auto">
+    <nav v-if="authStore.isAuthenticated" class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0A0A0A]/95 border-t border-[#E5E5E5] dark:border-[#2A2A2A] z-40 backdrop-blur-sm" style="padding-bottom: env(safe-area-inset-bottom)">
+      <div class="flex items-center justify-around py-2 max-w-lg mx-auto">
         <NuxtLink
           v-for="item in navItems"
           :key="item.to"
